@@ -1,16 +1,25 @@
 <?php
-    $renavam = $_POST["renavam"];
-    $carName = $_POST["carName"];
-    $carColor = $_POST["carColor"];
-    $typeCar = $_POST["typeCar"];
+    include_once "../Models/Car.php";
+    include_once "../Models/ETypeCar.php";
+    include_once "../Repository/CarRepository.php";
+
+    $car = new Car($_POST["renavam"], $_POST["carName"], $_POST["color"], $_POST["typeCar"]);
     $array_errors = array();
 
     function formHasErrors() {
-        global $renavam, $carName, $carColor, $typeCar, $array_errors;
+        global $car, $array_errors;
         $hasErrors = false;
+        $typeCars = array(
+            ETypeCar::SUV->value,
+            ETypeCar::Sedan->value,
+            ETypeCar::Hatchback->value,
+            ETypeCar::Convertible->value,
+            ETypeCar::SportCar->value,
+            ETypeCar::Pickup->value
+        );
 
-        if (trim($renavam) != "") {
-            if (!is_numeric($renavam)) {
+        if (trim($car->getRenavam()) != "") {
+            if (!is_numeric($car->getRenavam()) || strlen($car->getRenavam()) != 11) {
                 array_push($array_errors, "Renavam inválido");
             }
         }
@@ -18,16 +27,16 @@
             array_push($array_errors, "Renavam não informado");
         }
         
-        if (trim($carName) == "") {
+        if (trim($car->getCarName()) == "") {
             array_push($array_errors, "Nome do carro não informado");
         }
 
-        if (trim($carColor) == "") {
+        if (trim($car->getColor()) == "") {
             array_push($array_errors, "Cor do carro não informado");
         }
 
-        if (trim($typeCar) == "" || (trim($typeCar) < 1 || trim($typeCar) > 3)) {
-            array_push($array_errors, "Tipo do carro não informado");
+        if (trim($car->getTypeCarId()) == "" || !in_array(trim($car->getTypeCarId()), $typeCars)) {
+            array_push($array_errors, "Tipo do carro não informado ou inválido");
         }
 
         if (count($array_errors) > 0)
@@ -37,19 +46,22 @@
     }
 
     if (formHasErrors()) {
-        foreach ($array_errors as $value)
+        foreach ($array_errors as $value) {
             echo "$value <br />";
+        }
+
+        print "<br /><a href='../index.php'>Voltar</a>";
     }
     else {
-        echo "Hello, World!";
-    }
-    
-    // echo $_POST["renavam"];
-    // echo "<br />";
-    // echo $_POST["carName"];
-    // echo "<br />";
-    // echo $_POST["carColor"];
-    // echo "<br />";
-    // echo $_POST["typeCar"];
+        try {
+            $carRepository = new CarRepository();
+            $carRepository->InsertCar($car);
 
+            echo "Hello, World!";
+        }
+        catch (Exception $ex) {
+            print $ex->getMessage();
+            print "<br /><a href='../index.php'>Voltar</a>";
+        }
+    }
 ?>
