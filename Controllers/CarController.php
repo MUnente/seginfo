@@ -1,14 +1,16 @@
 <?php
     include_once "../Models/Car.php";
     include_once "../Models/ETypeCar.php";
+    include_once "../Models/EActionController.php";
     include_once "../Repository/CarRepository.php";
 
-    $car = new Car($_POST["renavam"], $_POST["carName"], $_POST["color"], $_POST["typeCar"]);
-    $array_errors = array();
+    if (isset($_GET['action']))
+        $action = intval($_GET['action']);
+    else
+        $action = 0;
 
-    function formHasErrors() {
-        global $car, $array_errors;
-        $hasErrors = false;
+    function getFormErrors(Car $car) {
+        $array_errors = array();
         $typeCars = array(
             ETypeCar::SUV->value,
             ETypeCar::Sedan->value,
@@ -39,29 +41,77 @@
             array_push($array_errors, "Tipo do carro não informado ou inválido");
         }
 
-        if (count($array_errors) > 0)
-            $hasErrors = true;
-
-        return $hasErrors;
+        return $array_errors;
     }
 
-    if (formHasErrors()) {
-        foreach ($array_errors as $value) {
-            echo "$value <br />";
+    function createHtmlTable($carsList) {
+        print "<table border='1'>";
+        print "<tr>";
+        print "<th>Renavam</th>";
+        print "<th>Car name</th>";
+        print "<th>Color</th>";
+        print "<th>Type car</th>";
+        print "</tr>";
+
+        foreach ($carsList as $car) {
+            print "<tr>";
+            print "<td>".$car->getRenavam()."</td>";
+            print "<td>".$car->getCarName()."</td>";
+            print "<td>".$car->getColor()."</td>";
+            print "<td>".$car->getTypeCarId()."</td>";
+            print "</tr>";
         }
 
-        print "<br /><a href='../index.php'>Voltar</a>";
+        print "</table>";
+    }
+
+    if ($action <= 0) {
+        print "<br />URL inválida.";
     }
     else {
-        try {
-            $carRepository = new CarRepository();
-            $carRepository->InsertCar($car);
+        if ($action == EActionController::Select->value) {
+            try {
+                $carRepository = new CarRepository();
+                $carsList = $carRepository->SelectCars();
 
-            echo "Hello, World!";
+                if (count($carsList) == 0) {
+                    print "<br />Não há carros cadastrados por enquanto.";
+                    exit;
+                }
+
+                print "<h1 style='text-align: center'>Listagem de carros</h1>";
+
+                createHtmlTable($carsList);
+                print "<br /><a href='../index.php'>Voltar</a>";
+            }
+            catch (Exception $ex) {
+                print $ex->getMessage();
+                print "<br /><a href='../index.php'>Voltar</a>";
+            }
         }
-        catch (Exception $ex) {
-            print $ex->getMessage();
-            print "<br /><a href='../index.php'>Voltar</a>";
+        else if ($action == EActionController::Insert->value) {
+            $car = new Car($_POST["renavam"], $_POST["carName"], $_POST["color"], $_POST["typeCar"]);
+            $array_errors = getFormErrors($car);
+
+            if (count($array_errors) > 0) {
+                foreach ($array_errors as $value) {
+                    echo "$value <br />";
+                }
+    
+                print "<br /><a href='../index.php'>Voltar</a>";
+            }
+            else {
+                try {
+                    $carRepository = new CarRepository();
+                    $carRepository->InsertCar($car);
+                    
+                    header("Location: CarController.php?action=1");
+                }
+                catch (Exception $ex) {
+                    print $ex->getMessage();
+                    print "<br /><a href='../index.php'>Voltar</a>";
+                }
+            }
         }
     }
 ?>

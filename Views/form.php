@@ -22,9 +22,9 @@
         </style>
     </head>
     <body>
-        <h1 class="title">Cadastro de Carros</h1>
+        <h1 class="title">Cadastro de carros</h1>
         
-        <form action="./Controllers/CarController.php" method="post">
+        <form action="../Controllers/CarController.php?action=2" method="post">
             <div class="row">
                 <label for="renavam">Renavam:&nbsp</label>
                 <input type="text" name="renavam" maxlength="11" />
@@ -53,6 +53,8 @@
                 <button type="Submit">Cadastrar</button>
             </div>
         </form>
+        <br />
+        <a href="../index.php">Voltar</a>
     </body>
 </html>
 

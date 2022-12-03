@@ -19,5 +19,24 @@
                 throw new Exception($ex->getMessage());
             }
         }
+
+        public function SelectCars() {
+            try {
+                $carsList = array();
+                $conn = Connection::connect();
+
+                $data = $conn->query("SELECT * FROM car")->fetchAll();
+
+                foreach ($data as $row) {
+                    $car = new Car($row["renavam"], $row["carName"], $row["color"], $row["typeCarId"]);
+                    array_push($carsList, $car);
+                }
+
+                return $carsList;
+            } 
+            catch (Exception $ex) {
+                throw new Exception($ex->getMessage());
+            }
+        }
     }
 ?>
