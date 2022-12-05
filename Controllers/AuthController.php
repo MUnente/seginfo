@@ -54,8 +54,8 @@
         if ($action == EAuthType::Login->value) {
             try {
                 $userForm = new User();
-                $userForm->setEmail($_POST["email"]);
-                $userForm->setPassword($_POST["password"]);
+                $userForm->setEmail(htmlspecialchars($_POST["email"]));
+                $userForm->setPassword(htmlspecialchars($_POST["password"]));
                 $array_errors = getFormErrors($userForm, $action);
                 
                 if (count($array_errors) > 0) {
@@ -86,9 +86,9 @@
         else if ($action == EAuthType::Register->value) {
             try {
                 $userForm = new User();
-                $userForm->setUsername($_POST["username"]);
-                $userForm->setEmail($_POST["email"]);
-                $userForm->setPassword($_POST["password"]);
+                $userForm->setUsername(htmlspecialchars($_POST["username"]));
+                $userForm->setEmail(htmlspecialchars($_POST["email"]));
+                $userForm->setPassword(htmlspecialchars($_POST["password"]));
                 $array_errors = getFormErrors($userForm, $action);
     
                 if (count($array_errors) > 0) {

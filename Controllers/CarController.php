@@ -92,7 +92,7 @@
             }
         }
         else if ($action == EActionController::Insert->value) {
-            $car = new Car($_POST["renavam"], $_POST["carName"], $_POST["color"], $_POST["typeCar"]);
+            $car = new Car(htmlspecialchars($_POST["renavam"]), htmlspecialchars($_POST["carName"]), htmlspecialchars($_POST["color"]), htmlspecialchars($_POST["typeCar"]));
             $array_errors = getFormErrors($car);
 
             if (count($array_errors) > 0) {
@@ -111,7 +111,7 @@
                 }
                 catch (Exception $ex) {
                     print $ex->getMessage();
-                    print "<br /><a href='../Views/menu.php'>Voltar</a>";
+                    print "<br /><a href='../Views/form.php'>Voltar</a>";
                 }
             }
         }
