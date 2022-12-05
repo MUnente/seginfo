@@ -1,4 +1,5 @@
 <?php
+    include("../Services/session.php");
     include_once "../Models/Car.php";
     include_once "../Models/ETypeCar.php";
     include_once "../Models/EActionController.php";
@@ -67,6 +68,7 @@
 
     if ($action <= 0) {
         print "<br />URL inválida.";
+        print "<br /><a href='../Views/menu.php'>Voltar</a>";
     }
     else {
         if ($action == EActionController::Select->value) {
@@ -82,11 +84,11 @@
                 print "<h1 style='text-align: center'>Listagem de carros</h1>";
 
                 createHtmlTable($carsList);
-                print "<br /><a href='../index.php'>Voltar</a>";
+                print "<br /><a href='../Views/menu.php'>Voltar</a>";
             }
             catch (Exception $ex) {
                 print $ex->getMessage();
-                print "<br /><a href='../index.php'>Voltar</a>";
+                print "<br /><a href='../Views/menu.php'>Voltar</a>";
             }
         }
         else if ($action == EActionController::Insert->value) {
@@ -98,7 +100,7 @@
                     echo "$value <br />";
                 }
     
-                print "<br /><a href='../index.php'>Voltar</a>";
+                print "<br /><a href='../Views/form.php'>Voltar</a>";
             }
             else {
                 try {
@@ -109,7 +111,7 @@
                 }
                 catch (Exception $ex) {
                     print $ex->getMessage();
-                    print "<br /><a href='../index.php'>Voltar</a>";
+                    print "<br /><a href='../Views/menu.php'>Voltar</a>";
                 }
             }
         }

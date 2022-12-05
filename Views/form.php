@@ -5,7 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <title>Cadastro de Carros</title>
+        <title>Cadastro de carros</title>
 
         <style>
             .title {
@@ -22,6 +22,10 @@
         </style>
     </head>
     <body>
+        <?php
+            include("../Services/session.php");
+        ?>
+    
         <h1 class="title">Cadastro de carros</h1>
         
         <form action="../Controllers/CarController.php?action=2" method="post">
@@ -54,7 +58,7 @@
             </div>
         </form>
         <br />
-        <a href="../index.php">Voltar</a>
+        <a href="./menu.php">Voltar</a>
     </body>
 </html>
 
