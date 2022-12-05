@@ -1,3 +1,5 @@
+# Seginfo - Cars
+
 Este é um projeto destinado ao trabalho da matéria de Segurança da Informação do 6° semestre do curso de Análise e Desenvolvimento de Sistemas do IFSP - Campus Capivari. O projeto foi desenvolvido utilizando a linguagem PHP, banco de dados MySQL e o pacote de serviços XAMPP.
 
 Para a execução do projeto, é necessário:
