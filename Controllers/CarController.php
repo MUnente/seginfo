@@ -78,6 +78,7 @@
 
                 if (count($carsList) == 0) {
                     print "<br />Não há carros cadastrados por enquanto.";
+                    print "<br /><a href='../Views/menu.php'>Voltar</a>";
                     exit;
                 }
 
