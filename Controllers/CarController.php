@@ -1,8 +1,8 @@
 <?php
     include("../Services/session.php");
     include_once "../Models/Car.php";
-    include_once "../Models/ETypeCar.php";
-    include_once "../Models/EActionController.php";
+    // include_once "../Models/ETypeCar.php";
+    // include_once "../Models/EActionController.php";
     include_once "../Repository/CarRepository.php";
 
     if (isset($_GET['action']))
@@ -13,12 +13,12 @@
     function getFormErrors(Car $car) {
         $array_errors = array();
         $typeCars = array(
-            ETypeCar::SUV->value,
-            ETypeCar::Sedan->value,
-            ETypeCar::Hatchback->value,
-            ETypeCar::Convertible->value,
-            ETypeCar::SportCar->value,
-            ETypeCar::Pickup->value
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
         );
 
         if (trim($car->getRenavam()) != "") {
@@ -71,7 +71,7 @@
         print "<br /><a href='../Views/menu.php'>Voltar</a>";
     }
     else {
-        if ($action == EActionController::Select->value) {
+        if ($action == 1) {
             try {
                 $carRepository = new CarRepository();
                 $carsList = $carRepository->SelectCars();
@@ -92,7 +92,7 @@
                 print "<br /><a href='../Views/menu.php'>Voltar</a>";
             }
         }
-        else if ($action == EActionController::Insert->value) {
+        else if ($action == 2) {
             $car = new Car(htmlspecialchars($_POST["renavam"]), htmlspecialchars($_POST["carName"]), htmlspecialchars($_POST["color"]), htmlspecialchars($_POST["typeCar"]));
             $array_errors = getFormErrors($car);
 

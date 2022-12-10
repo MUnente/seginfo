@@ -1,6 +1,6 @@
 <?php
     include_once "../Models/User.php";
-    include_once "../Models/EAuthType.php";
+    // include_once "../Models/EAuthType.php";
     include_once "../Repository/UserRepository.php";
 
     if (isset($_GET['action']))
@@ -11,7 +11,7 @@
     function getFormErrors($user, $typeForm) {
         $array_errors = array();
 
-        if ($typeForm == EAuthType::Register->value) {
+        if ($typeForm == 2) {
             if (trim($user->getUsername()) == "") {
                 array_push($array_errors, "Nome é requerido");
             }
@@ -51,7 +51,7 @@
     else {
         $userResult = new User();
 
-        if ($action == EAuthType::Login->value) {
+        if ($action == 1) {
             try {
                 $userForm = new User();
                 $userForm->setEmail(htmlspecialchars($_POST["email"]));
@@ -83,7 +83,7 @@
                 print "<br /><a href='../index.php'>Voltar</a>";
             }
         }
-        else if ($action == EAuthType::Register->value) {
+        else if ($action == 2) {
             try {
                 $userForm = new User();
                 $userForm->setUsername(htmlspecialchars($_POST["username"]));
@@ -111,7 +111,7 @@
                 print "<br /><a href='../index.php'>Voltar</a>";
             }
         }
-        else if ($action == EAuthType::Logout->value) {
+        else if ($action == 3) {
             session_start();
             session_destroy();
             header('Location: ../index.php');
